@@ -126,7 +126,6 @@ final class Main {
 
 		$this->load_dependencies();
 
-
 		$this->load_hooks();
 	}
 
@@ -310,9 +309,9 @@ final class Main {
 	private function define_plugin_hooks() {
 
 		$model_prefs = new Model_Preferences();
-		$this->loader->add_filter( 'wpai_preferred_text_models', $model_prefs, 'filter_text_models', 1000 );
-		$this->loader->add_filter( 'wpai_preferred_image_models', $model_prefs, 'filter_image_models', 1000 );
-		$this->loader->add_filter( 'wpai_preferred_vision_models', $model_prefs, 'filter_vision_models', 1000 );
+		$this->loader->add_filter( 'wpai_preferred_text_models', $model_prefs, 'filter_text_models', 1111 );
+		$this->loader->add_filter( 'wpai_preferred_image_models', $model_prefs, 'filter_image_models', 1111 );
+		$this->loader->add_filter( 'wpai_preferred_vision_models', $model_prefs, 'filter_vision_models', 1111 );
 	}
 
 	/**

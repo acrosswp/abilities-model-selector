@@ -85,42 +85,27 @@ class Model_Preferences {
 	}
 
 	/**
-	 * Checks whether a specific AI provider has an API key entered via the connector screen.
+	 * Checks whether a specific AI provider is configured (has credentials via any source:
+	 * database, environment variable, or PHP constant).
+	 *
+	 * Uses the AiClient registry directly so env-var and constant-based keys are detected,
+	 * not just database-stored ones.
 	 *
 	 * @param string $provider_id The provider ID (e.g. 'openai', 'anthropic').
-	 * @return bool True if the provider has a non-empty API key saved.
+	 * @return bool True if the provider is configured with credentials.
 	 */
 	private function is_provider_connected( string $provider_id ): bool {
-		if ( ! function_exists( 'wp_get_connectors' ) ) {
+		if ( ! class_exists( \WordPress\AiClient\AiClient::class ) ) {
 			return false;
 		}
 
-		$connectors = wp_get_connectors();
-
-		$has_credentials = false;
-
-		foreach ( $connectors as $connector_id => $connector_data ) {
-			if ( $connector_id !== $provider_id ) {
-				continue;
-			}
-
-			if ( 'ai_provider' !== $connector_data['type'] ) {
-				continue;
-			}
-
-			$auth = $connector_data['authentication'];
-			if ( 'api_key' !== $auth['method'] || empty( $auth['setting_name'] ) ) {
-				continue;
-			}
-
-			if ( '' === get_option( $auth['setting_name'], '' ) ) {
-				continue;
-			}
-
-			$has_credentials = true;
-			break;
+		try {
+			$registry         = \WordPress\AiClient\AiClient::defaultRegistry();
+			$has_credentials  = $registry->isProviderConfigured( $provider_id );
+		} catch ( \Throwable $e ) {
+			$has_credentials = false;
 		}
 
-		return (bool) apply_filters( 'aiam_has_ai_credentials', $has_credentials, $connectors );
+		return (bool) apply_filters( 'aiam_has_ai_credentials', $has_credentials, $provider_id );
 	}
 }
