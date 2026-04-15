@@ -26,7 +26,8 @@
 		"env:stop": "wp-env stop",
 		"env:restart": "wp-env stop && wp-env start",
 		"env:clean": "wp-env clean all",
-		"env:reset": "wp-env destroy && wp-env start"
+		"env:reset": "wp-env destroy && wp-env start",
+		"build-production": "NODE_ENV=production wp-scripts build"
 	},
 	"devDependencies": {
 		"@wordpress/env": "latest",
