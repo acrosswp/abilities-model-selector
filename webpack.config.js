@@ -62,13 +62,7 @@ module.exports = {
 		...getWebpackEntryPoints(), // Default WP entry points (e.g., index.js)
 		...blockStylesheets(), // Core block styles (scss)
 		...blockEntries, // Custom blocks (index.js/view.js)
-		'js/frontend': path.resolve( process.cwd(), 'src/js', 'frontend.js' ),
 		'js/backend': path.resolve( process.cwd(), 'src/js', 'backend.js' ),
-		'css/frontend': path.resolve(
-			process.cwd(),
-			'src/scss',
-			'frontend.scss'
-		),
 		'css/backend': path.resolve(
 			process.cwd(),
 			'src/scss',
