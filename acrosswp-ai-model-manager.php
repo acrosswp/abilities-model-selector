@@ -2,10 +2,10 @@
 /**
  * Instantiates the AI Model Preferences plugin
  *
- * @package AWPAI_Model_Preferences
+ * @package AcrossWP_AI_Model_Manager
  */
 
-namespace AWPAI_Model_Preferences;
+namespace AcrossWP_AI_Model_Manager;
 
 /**
  * The plugin bootstrap file
@@ -15,20 +15,20 @@ namespace AWPAI_Model_Preferences;
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://github.com/AcrossWP/ai-model-preferences
+ * @link              https://github.com/AcrossWP/ai-model-manager
  * @since             0.0.1
- * @package           AWPAI_Model_Preferences
+ * @package           AcrossWP_AI_Model_Manager
  *
  * @wordpress-plugin
- * Plugin Name:       AI Model Preferences
- * Plugin URI:        https://github.com/AcrossWP/ai-model-preferences
- * Description:       AI Model Preferences to set the default AI model for different use cases in AcrossWP.
+ * Plugin Name:       AcrossWP AI Model Manager
+ * Plugin URI:        https://github.com/AcrossWP/ai-model-manager
+ * Description:       A WordPress plugin to manage AI model preferences for users, allowing them to select and save their preferred AI models for various tasks.
  * Version:           0.0.1
  * Author:            okpoojagupta
- * Author URI:        https://github.com/AcrossWP/ai-model-preferences
+ * Author URI:        https://github.com/AcrossWP/ai-model-manager
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       ai-model-preferences
+ * Text Domain:       acrosswp-ai-model-manager
  * Domain Path:       /languages
  */
 
@@ -42,13 +42,13 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.0.1 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'AWPAI_MODEL_PREFERENCES_PLUGIN_FILE', __FILE__ );
+define( 'ACROSSWP_AI_MODEL_MANAGER_PLUGIN_FILE', __FILE__ );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/activator.php
  */
-function awpai_model_preferences_activate() {
+function acrosswp_ai_model_manager_activate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/activator.php';
 	Includes\Activator::activate();
 }
@@ -57,13 +57,13 @@ function awpai_model_preferences_activate() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/deactivator.php
  */
-function awpai_model_preferences_deactivate() {
+function acrosswp_ai_model_manager_deactivate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/deactivator.php';
 	Includes\Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'AWPAI_Model_Preferences\awpai_model_preferences_activate' );
-register_deactivation_hook( __FILE__, 'AWPAI_Model_Preferences\awpai_model_preferences_deactivate' );
+register_activation_hook( __FILE__, 'AcrossWP_AI_Model_Manager\acrosswp_ai_model_manager_activate' );
+register_deactivation_hook( __FILE__, 'AcrossWP_AI_Model_Manager\acrosswp_ai_model_manager_deactivate' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -71,7 +71,7 @@ register_deactivation_hook( __FILE__, 'AWPAI_Model_Preferences\awpai_model_prefe
  */
 require plugin_dir_path( __FILE__ ) . 'includes/main.php';
 
-use AWPAI_Model_Preferences\Includes\Main;
+use AcrossWP_AI_Model_Manager\Includes\Main;
 
 /**
  * Begins execution of the plugin.
@@ -82,7 +82,7 @@ use AWPAI_Model_Preferences\Includes\Main;
  *
  * @since    0.0.1
  */
-function awpai_model_preferences_run() {
+function acrosswp_ai_model_manager_run() {
 
 	$plugin = Main::instance();
 
@@ -91,4 +91,4 @@ function awpai_model_preferences_run() {
 	 */
 	add_action( 'plugins_loaded', array( $plugin, 'run' ), 0 );
 }
-awpai_model_preferences_run();
+acrosswp_ai_model_manager_run();

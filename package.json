@@ -1,17 +1,17 @@
 {
-	"name": "ai-model-preferences",
+	"name": "acrosswp-ai-model-manager",
 	"title": "AI Model Preferences",
 	"description": "AI Model Preferences by WPBoilerplate.",
 	"homepage": "https://github.com/woocommerce/woocommerce/wiki",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/AcrossWP/ai-model-preferences.git"
+		"url": "git+https://github.com/AcrossWP/ai-model-manager.git"
 	},
 	"author": "WPBoilerplate",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
-		"url": "https://github.com/AcrossWP/ai-model-preferences/issues"
+		"url": "https://github.com/AcrossWP/ai-model-manager/issues"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
@@ -50,6 +50,6 @@
 		"extends": "@wordpress/stylelint-config/scss"
 	},
 	"keywords": [
-		"ai-model-preferences"
+		"acrosswp-ai-model-manager"
 	]
 }

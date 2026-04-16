@@ -29,5 +29,5 @@ jobs:
             - name: Upload zip artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: ai-model-preferences
-                  path: ai-model-preferences.zip
+                  name: acrosswp-ai-model-manager
+                  path: acrosswp-ai-model-manager.zip

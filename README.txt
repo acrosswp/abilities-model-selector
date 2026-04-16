@@ -1,6 +1,6 @@
 === AI Model Preferences ===
-Contributors: okpoojagupta
-Donate link: https://github.com/AcrossWP/ai-model-preferences
+Contributors: okpoojagupta, acrosswp
+Donate link: https://github.com/AcrossWP/ai-model-manager
 Tags: ai, artificial intelligence, models, preferences, connectors
 Requires at least: 7.0
 Tested up to: 6.8
@@ -34,7 +34,7 @@ Preferences are stored as a single serialised option in the database and are exp
 
 == Installation ==
 
-1. Upload the `ai-model-preferences` folder to the `/wp-content/plugins/` directory, or install through the WordPress Plugins screen directly.
+1. Upload the `acrosswp-ai-model-manager` folder to the `/wp-content/plugins/` directory, or install through the WordPress Plugins screen directly.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Go to **Settings > AI Model Preferences**.
 4. Choose your preferred model for each capability type from the dropdowns. Only models from configured and connected providers appear.

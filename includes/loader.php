@@ -1,5 +1,5 @@
 <?php
-namespace AWPAI_Model_Preferences\Includes;
+namespace AcrossWP_AI_Model_Manager\Includes;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -7,11 +7,11 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register all actions and filters for the plugin
  *
- * @link       https://github.com/AcrossWP/ai-model-preferences
+ * @link       https://github.com/AcrossWP/ai-model-manager
  * @since      0.0.1
  *
- * @package    AWPAI_Model_Preferences
- * @subpackage AWPAI_Model_Preferences/includes
+ * @package    AcrossWP_AI_Model_Manager
+ * @subpackage AcrossWP_AI_Model_Manager/includes
  */
 
 /**
@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    AWPAI_Model_Preferences
- * @subpackage AWPAI_Model_Preferences/includes
+ * @package    AcrossWP_AI_Model_Manager
+ * @subpackage AcrossWP_AI_Model_Manager/includes
  * @author     WPBoilerplate <contact@wpboilerplate.com>
  */
 class Loader {
@@ -48,7 +48,7 @@ class Loader {
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var AWPAI_Model_Preferences_Loader
+	 * @var AcrossWP_AI_Model_Manager_Loader
 	 * @since 0.0.1
 	 */
 	protected static $_instance = null;
@@ -65,14 +65,14 @@ class Loader {
 	}
 
 	/**
-	 * Main AWPAI_Model_Preferences_Loader Instance.
+	 * Main AcrossWP_AI_Model_Manager_Loader Instance.
 	 *
 	 * Ensures only one instance of WooCommerce is loaded or can be loaded.
 	 *
 	 * @since 0.0.1
 	 * @static
-	 * @see AWPAI_Model_Preferences_Loader()
-	 * @return AWPAI_Model_Preferences_Loader - Main instance.
+	 * @see AcrossWP_AI_Model_Manager_Loader()
+	 * @return AcrossWP_AI_Model_Manager_Loader - Main instance.
 	 */
 	public static function instance() {
 		if ( null === self::$_instance ) {

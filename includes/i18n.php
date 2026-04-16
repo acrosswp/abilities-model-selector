@@ -1,5 +1,5 @@
 <?php
-namespace AWPAI_Model_Preferences\Includes;
+namespace AcrossWP_AI_Model_Manager\Includes;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -7,8 +7,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Define the internationalization functionality
  *
- * @package    AWPAI_Model_Preferences
- * @subpackage AWPAI_Model_Preferences/includes
+ * @package    AcrossWP_AI_Model_Manager
+ * @subpackage AcrossWP_AI_Model_Manager/includes
  */
 class I18n {
 
@@ -17,9 +17,9 @@ class I18n {
 	 */
 	public function do_load_textdomain() {
 		load_plugin_textdomain(
-			'ai-model-preferences',
+			'acrosswp-ai-model-manager',
 			false,
-			plugin_basename( dirname( \AWPAI_MODEL_PREFERENCES_PLUGIN_FILE ) ) . '/languages/'
+			plugin_basename( dirname( \ACROSSWP_AI_MODEL_MANAGER_PLUGIN_FILE ) ) . '/languages/'
 		);
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace AWPAI_Model_Preferences\Includes;
+namespace AcrossWP_AI_Model_Manager\Includes;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -7,11 +7,11 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Fired during plugin deactivation
  *
- * @link       https://github.com/AcrossWP/ai-model-preferences
+ * @link       https://github.com/AcrossWP/ai-model-manager
  * @since      0.0.1
  *
- * @package    AWPAI_Model_Preferences
- * @subpackage AWPAI_Model_Preferences/includes
+ * @package    AcrossWP_AI_Model_Manager
+ * @subpackage AcrossWP_AI_Model_Manager/includes
  */
 
 /**
@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      0.0.1
- * @package    AWPAI_Model_Preferences
- * @subpackage AWPAI_Model_Preferences/includes
+ * @package    AcrossWP_AI_Model_Manager
+ * @subpackage AcrossWP_AI_Model_Manager/includes
  * @author     WPBoilerplate <contact@wpboilerplate.com>
  */
 class Deactivator {

@@ -1,12 +1,12 @@
 <?php
 /**
- * Class AWPAI_Model_Preferences\Includes\Autoloader
+ * Class AcrossWP_AI_Model_Manager\Includes\Autoloader
  *
  * @since 0.0.1
- * @package AWPAI_Model_Preferences
+ * @package AcrossWP_AI_Model_Manager
  */
 
-namespace AWPAI_Model_Preferences\Includes;
+namespace AcrossWP_AI_Model_Manager\Includes;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
