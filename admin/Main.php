@@ -1,5 +1,5 @@
 <?php
-namespace AcrossWP_AI_Model_Manager\Admin;
+namespace Abilities_Model_Selector\Admin;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -8,11 +8,11 @@ defined( 'ABSPATH' ) || exit;
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://github.com/AcrossWP/ai-model-manager
+ * @link       https://github.com/AcrossWP/abilities-model-selector
  * @since      0.0.1
  *
- * @package    AcrossWP_AI_Model_Manager
- * @subpackage AcrossWP_AI_Model_Manager/admin
+ * @package    Abilities_Model_Selector
+ * @subpackage Abilities_Model_Selector/admin
  */
 
 /**
@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    AcrossWP_AI_Model_Manager
- * @subpackage AcrossWP_AI_Model_Manager/admin
+ * @package    Abilities_Model_Selector
+ * @subpackage Abilities_Model_Selector/admin
  * @author     WPBoilerplate <contact@wpboilerplate.com>
  */
 class Main {
@@ -75,8 +75,8 @@ class Main {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
-		$this->js_asset_file  = include \ACROSSWP_AI_MODEL_MANAGER_PLUGIN_PATH . 'build/js/backend.asset.php';
-		$this->css_asset_file = include \ACROSSWP_AI_MODEL_MANAGER_PLUGIN_PATH . 'build/css/backend.asset.php';
+		$this->js_asset_file  = include \ACWP_ABILITIES_MODEL_SELECTOR_PLUGIN_PATH . 'build/js/backend.asset.php';
+		$this->css_asset_file = include \ACWP_ABILITIES_MODEL_SELECTOR_PLUGIN_PATH . 'build/css/backend.asset.php';
 	}
 
 	/**
@@ -91,13 +91,13 @@ class Main {
 
 		// Global admin stylesheet (includes all settings-page styles from src/scss/backend.scss).
 		$css_deps = $this->css_asset_file['dependencies'];
-		if ( 'settings_page_acrosswp-ai-model-manager' === $hook ) {
+		if ( 'settings_page_abilities-model-selector' === $hook ) {
 			$css_deps = array_unique( array_merge( $css_deps, array( 'wp-components' ) ) );
 		}
-		wp_enqueue_style( $this->plugin_name, \ACROSSWP_AI_MODEL_MANAGER_PLUGIN_URL . 'build/css/backend.css', $css_deps, $this->css_asset_file['version'], 'all' );
+		wp_enqueue_style( $this->plugin_name, \ACWP_ABILITIES_MODEL_SELECTOR_PLUGIN_URL . 'build/css/backend.css', $css_deps, $this->css_asset_file['version'], 'all' );
 
 		// Settings-page-specific assets.
-		if ( 'settings_page_acrosswp-ai-model-manager' !== $hook ) {
+		if ( 'settings_page_abilities-model-selector' !== $hook ) {
 			return;
 		}
 
@@ -190,18 +190,18 @@ class Main {
 	 */
 	public function enqueue_scripts( string $hook = '' ) {
 
-		wp_enqueue_script( $this->plugin_name, \ACROSSWP_AI_MODEL_MANAGER_PLUGIN_URL . 'build/js/backend.js', $this->js_asset_file['dependencies'], $this->js_asset_file['version'], false );
+		wp_enqueue_script( $this->plugin_name, \ACWP_ABILITIES_MODEL_SELECTOR_PLUGIN_URL . 'build/js/backend.js', $this->js_asset_file['dependencies'], $this->js_asset_file['version'], false );
 
 		// Inject settings data after the handle is registered (wp_localize_script requires a registered handle).
-		if ( 'settings_page_acrosswp-ai-model-manager' === $hook ) {
+		if ( 'settings_page_abilities-model-selector' === $hook ) {
 			wp_localize_script(
 				$this->plugin_name,
 				'aiamSettings',
 				array(
 					'models'      => $this->get_models_grouped_by_capability(),
-					'preferences' => (object) get_option( \AcrossWP_AI_Model_Manager\Admin\Partials\Menu::OPTION_KEY, array() ),
+					'preferences' => (object) get_option( \Abilities_Model_Selector\Admin\Partials\Menu::OPTION_KEY, array() ),
 					'nonce'       => wp_create_nonce( 'wp_rest' ),
-					'optionName'  => \AcrossWP_AI_Model_Manager\Admin\Partials\Menu::OPTION_KEY,
+					'optionName'  => \Abilities_Model_Selector\Admin\Partials\Menu::OPTION_KEY,
 				)
 			);
 		}
@@ -216,8 +216,8 @@ class Main {
 	public function add_settings_link( array $links ): array {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
-			esc_url( admin_url( 'options-general.php?page=acrosswp-ai-model-manager' ) ),
-			esc_html__( 'Settings', 'acrosswp-ai-model-manager' )
+			esc_url( admin_url( 'options-general.php?page=abilities-model-selector' ) ),
+			esc_html__( 'Settings', 'abilities-model-selector' )
 		);
 		array_unshift( $links, $settings_link );
 		return $links;

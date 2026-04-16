@@ -1,5 +1,5 @@
 <?php
-namespace AcrossWP_AI_Model_Manager\Admin\Partials;
+namespace Abilities_Model_Selector\Admin\Partials;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -8,12 +8,12 @@ defined( 'ABSPATH' ) || exit;
  * Handles the admin menu and settings page for AI Model Preferences.
  *
  * @since      0.0.1
- * @package    AcrossWP_AI_Model_Manager\Admin\Partials
+ * @package    Abilities_Model_Selector\Admin\Partials
  */
 class Menu {
 
 	const OPTION_KEY = 'aiam_model_preferences';
-	const PAGE_SLUG  = 'acrosswp-ai-model-manager';
+	const PAGE_SLUG  = 'abilities-model-selector';
 
 	/**
 	 * Capability types shown on the settings page.
@@ -54,8 +54,8 @@ class Menu {
 	/** Adds the Settings sub-menu page. */
 	public function add_menu(): void {
 		add_options_page(
-			__( 'AI Model Preferences', 'acrosswp-ai-model-manager' ),
-			__( 'AI Model Preferences', 'acrosswp-ai-model-manager' ),
+			__( 'AI Model Preferences', 'abilities-model-selector' ),
+			__( 'AI Model Preferences', 'abilities-model-selector' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			array( $this, 'render_page' ),
@@ -136,12 +136,12 @@ class Menu {
 	 */
 	public function render_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'acrosswp-ai-model-manager' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'abilities-model-selector' ) );
 		}
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<p class="description"><?php esc_html_e( 'Choose the preferred AI model for each capability type. These selections override the WordPress defaults.', 'acrosswp-ai-model-manager' ); ?></p>
+			<p class="description"><?php esc_html_e( 'Choose the preferred AI model for each capability type. These selections override the WordPress defaults.', 'abilities-model-selector' ); ?></p>
 			<div id="aiam-settings-root"></div>
 		</div>
 		<?php

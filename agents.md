@@ -97,7 +97,7 @@ The `init-plugin.sh` script automates the creation of a new plugin from the boil
 ### Manual Setup (Alternative)
 ```bash
 # Clone the repository
-git clone https://github.com/AcrossWP/ai-model-manager.git my-plugin-name
+git clone https://github.com/AcrossWP/abilities-model-selector.git my-plugin-name
 
 # Navigate to directory
 cd my-plugin-name

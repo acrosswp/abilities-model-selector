@@ -23,14 +23,14 @@ const {
 apiFetch.use( apiFetch.createNonceMiddleware( nonce ) );
 
 const CAPABILITIES = {
-	text_generation: __( 'Text Generation', 'acrosswp-ai-model-manager' ),
-	image_generation: __( 'Image Generation', 'acrosswp-ai-model-manager' ),
-	vision: __( 'Vision / Multimodal', 'acrosswp-ai-model-manager' ),
+	text_generation: __( 'Text Generation', 'abilities-model-selector' ),
+	image_generation: __( 'Image Generation', 'abilities-model-selector' ),
+	vision: __( 'Vision / Multimodal', 'abilities-model-selector' ),
 };
 
 const DEFAULT_OPTION = {
 	value: '',
-	label: __( '\u2014 Use WordPress Default \u2014', 'acrosswp-ai-model-manager' ),
+	label: __( '\u2014 Use WordPress Default \u2014', 'abilities-model-selector' ),
 };
 
 function SettingsApp() {
@@ -57,14 +57,14 @@ function SettingsApp() {
 			} );
 			setNotice( {
 				type: 'success',
-				message: __( 'Settings saved.', 'acrosswp-ai-model-manager' ),
+				message: __( 'Settings saved.', 'abilities-model-selector' ),
 			} );
 		} catch ( error ) {
 			setNotice( {
 				type: 'error',
 				message:
 					error.message ||
-					__( 'An error occurred while saving.', 'acrosswp-ai-model-manager' ),
+					__( 'An error occurred while saving.', 'abilities-model-selector' ),
 			} );
 		} finally {
 			setIsSaving( false );
@@ -87,7 +87,7 @@ function SettingsApp() {
 			<Card className="aiam-card">
 				<CardHeader>
 					<strong>
-						{ __( 'Model Preferences', 'acrosswp-ai-model-manager' ) }
+						{ __( 'Model Preferences', 'abilities-model-selector' ) }
 					</strong>
 				</CardHeader>
 				<CardBody>
@@ -113,7 +113,7 @@ function SettingsApp() {
 											capModels.length === 0
 												? __(
 														'No configured AI providers found for this capability.',
-														'acrosswp-ai-model-manager'
+														'abilities-model-selector'
 												  )
 												: undefined
 										}
@@ -137,8 +137,8 @@ function SettingsApp() {
 					size="compact"
 				>
 					{ isSaving
-						? __( 'Saving\u2026', 'acrosswp-ai-model-manager' )
-						: __( 'Save Changes', 'acrosswp-ai-model-manager' ) }
+						? __( 'Saving\u2026', 'abilities-model-selector' )
+						: __( 'Save Changes', 'abilities-model-selector' ) }
 				</Button>
 			</HStack>
 		</div>

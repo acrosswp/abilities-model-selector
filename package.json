@@ -1,17 +1,17 @@
 {
-	"name": "acrosswp-ai-model-manager",
+	"name": "abilities-model-selector",
 	"title": "AI Model Preferences",
 	"description": "AI Model Preferences by WPBoilerplate.",
 	"homepage": "https://github.com/woocommerce/woocommerce/wiki",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/AcrossWP/ai-model-manager.git"
+		"url": "git+https://github.com/AcrossWP/abilities-model-selector.git"
 	},
 	"author": "WPBoilerplate",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
-		"url": "https://github.com/AcrossWP/ai-model-manager/issues"
+		"url": "https://github.com/AcrossWP/abilities-model-selector/issues"
 	},
 	"scripts": {
 		"build": "wp-scripts build",
@@ -50,6 +50,6 @@
 		"extends": "@wordpress/stylelint-config/scss"
 	},
 	"keywords": [
-		"acrosswp-ai-model-manager"
+		"abilities-model-selector"
 	]
 }

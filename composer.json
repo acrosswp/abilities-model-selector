@@ -1,5 +1,5 @@
 {
-	"name": "wpboilerplate/acrosswp-ai-model-manager",
+	"name": "wpboilerplate/abilities-model-selector",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"description": "Composer to autoload the condition checking for which this add-on is made",
@@ -14,7 +14,7 @@
 		"plugin"
 	],
 	"support": {
-		"issues": "https://github.com/AcrossWP/ai-model-manager/issues"
+		"issues": "https://github.com/AcrossWP/abilities-model-selector/issues"
 	},
 	"authors": [
 		{

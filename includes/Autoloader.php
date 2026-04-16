@@ -1,12 +1,12 @@
 <?php
 /**
- * Class AcrossWP_AI_Model_Manager\Includes\Autoloader
+ * Class Abilities_Model_Selector\Includes\Autoloader
  *
  * @since 0.0.1
- * @package AcrossWP_AI_Model_Manager
+ * @package Abilities_Model_Selector
  */
 
-namespace AcrossWP_AI_Model_Manager\Includes;
+namespace Abilities_Model_Selector\Includes;
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;

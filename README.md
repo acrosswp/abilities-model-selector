@@ -36,7 +36,7 @@ Supported capability types:
 1. Clone or download this repository into your `/wp-content/plugins/` directory:
    ```bash
    cd /wp-content/plugins/
-   git clone https://github.com/AcrossWP/ai-model-manager.git
+   git clone https://github.com/AcrossWP/abilities-model-selector.git
    ```
 2. Install PHP dependencies:
    ```bash
@@ -66,7 +66,7 @@ Supported capability types:
 ### Project structure
 
 ```
-acrosswp-ai-model-manager/
+abilities-model-selector/
 ├── admin/
 │   ├── Main.php                  # Admin enqueue + settings link
 │   └── partials/
@@ -86,7 +86,7 @@ acrosswp-ai-model-manager/
 │       └── backend.scss          # Admin styles
 ├── build/                        # Compiled assets (git-ignored)
 ├── languages/                    # Translation files
-├── acrosswp-ai-model-manager.php      # Plugin entry point
+├── abilities-model-selector.php      # Plugin entry point
 ├── composer.json
 ├── package.json
 └── webpack.config.js

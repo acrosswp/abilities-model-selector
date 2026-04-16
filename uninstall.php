@@ -17,12 +17,12 @@
  * general skeleton and outline for how the file should work.
  *
  * For more information, see the following discussion:
- * https://github.com/AcrossWP/ai-model-manager
+ * https://github.com/AcrossWP/abilities-model-selector
  *
- * @link       https://github.com/AcrossWP/ai-model-manager
+ * @link       https://github.com/AcrossWP/abilities-model-selector
  * @since      0.0.1
  *
- * @package    AcrossWP_AI_Model_Manager
+ * @package    Abilities_Model_Selector
  */
 
 // If uninstall not called from WordPress, then exit.
