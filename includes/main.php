@@ -157,16 +157,6 @@ final class Main {
 		$this->define( 'ACAI_MODEL_MANAGER_PLUGIN_NAME_SLUG', $this->plugin_name );
 		$this->define( 'ACAI_MODEL_MANAGER_PLUGIN_NAME', 'AcrossAI Model Manager' );
 
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		$plugin_file = defined( 'ACAI_MODEL_MANAGER_PLUGIN_FILE' )
-			? \ACAI_MODEL_MANAGER_PLUGIN_FILE
-			: \ACAI_MODEL_MANAGER_PLUGIN_FILE;
-		$plugin_data = get_plugin_data( $plugin_file );
-		$version     = $plugin_data['Version'];
-		$this->define( 'ACAI_MODEL_MANAGER_VERSION', $version );
-
 		$this->plugin_dir = ACAI_MODEL_MANAGER_PLUGIN_PATH;
 	}
 

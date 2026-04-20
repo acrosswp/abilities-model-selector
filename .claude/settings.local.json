@@ -4,7 +4,8 @@
       "Bash(ls:*)",
       "Read(//Users/raftaar1191/local-sites/wordpress-7-0/app/public/**)",
       "Bash(wp --allow-root eval ':*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(node -e \"console.log\\(process.version\\)\")"
     ]
   }
 }

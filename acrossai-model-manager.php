@@ -43,6 +43,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'ACAI_MODEL_MANAGER_PLUGIN_FILE', __FILE__ );
+define( 'ACAI_MODEL_MANAGER_VERSION', '0.0.1' );
 
 /**
  * The code that runs during plugin activation.
