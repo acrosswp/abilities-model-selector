@@ -5,7 +5,7 @@ Tags: ai, models, manager, preferences, abilities
 Requires at least: 7.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.0.2
+Stable tag: 0.0.3
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,8 +29,9 @@ Manager are stored as a single serialised option in the database and are exposed
 
 **Requirements:**
 
-* WordPress 7.0 or higher (required for the built-in AI client).
-* At least one AI connector (e.g. Llama.cpp, Hugging Face, OpenAI via the AI Connectors screen) must be configured.
+* WordPress 7.0 or higher.
+* The [AI plugin](https://wordpress.org/plugins/ai/) must be installed and activated for Model Preferences to work. Without it, the Model Preferences dropdowns are disabled and no models will appear. You can still use this plugin to set the **HTTP Request Timeout** for the WordPress AI client without the AI plugin.
+* At least one AI connector (e.g. Llama.cpp, Hugging Face, OpenAI via the AI Connectors screen) must be configured for Model Preferences to work.
 
 == Installation ==
 
@@ -44,7 +45,18 @@ Manager are stored as a single serialised option in the database and are exposed
 
 = Do I need any other plugins for this to work? =
 
-Yes. The WordPress AI plugin must be installed, active, and connected to at least one AI provider via the Connectors screen (**Settings > Connectors**). Without a connected provider, no models will appear in the dropdowns.
+It depends on what you want to use.
+
+* **Model Preferences (choosing a preferred model per capability):** Yes — the [AI plugin](https://wordpress.org/plugins/ai/) must be installed and activated, and at least one AI provider must be configured via the Connectors screen (**Settings > Connectors**). If the AI plugin is not active, the Model Preferences dropdowns are automatically disabled on the settings page.
+* **HTTP Request Timeout:** No additional plugin required. The timeout setting works with the WordPress 7.0 built-in AI client directly and takes effect for all AI calls on your site.
+
+= Does this work with the WordPress 7.0 built-in WP AI Client? =
+
+Not fully yet. The WordPress AI client (introduced in WordPress 7.0) does not currently expose a filter that allows plugins to override the model being used. Model Preferences therefore requires the separate [AI plugin](https://wordpress.org/plugins/ai/) which provides the `wpai_preferred_*_models` filter hooks this plugin relies on.
+
+The **HTTP Request Timeout** setting does work directly with the WP AI Client via the `wp_ai_client_default_request_timeout` filter.
+
+Full WP AI Client support for Model Preferences is planned for a future release once WordPress core adds the necessary hooks.
 
 = What happens if my preferred provider loses its API key or connection? =
 
@@ -52,7 +64,7 @@ The plugin checks whether the provider is currently connected before applying th
 
 = Where is the preference stored? =
 
-Preferences are stored in the WordPress options table under the key `acwp_model_selector_preferences` as a JSON object with one entry per capability type (e.g. `{"text_generation":"openai::gpt-4o"}`).
+Preferences are stored in the WordPress options table under the key `acai_model_manager_preferences` as a JSON object with one entry per capability type (e.g. `{"text_generation":"openai::gpt-4o"}`).
 
 = Can I set different models for different capability types? =
 
@@ -60,13 +72,20 @@ Yes. Text generation, image generation, and vision can each have their own prefe
 
 = Will this work with custom or third-party AI providers? =
 
-Any provider that registers itself with the WordPress AI client registry and exposes its models through the standard metadata API will appear automatically in the dropdowns — no additional configuration is needed in this plugin.
+Any provider registered with the [AI plugin](https://wordpress.org/plugins/ai/) that exposes its models through the standard metadata API will appear automatically in the dropdowns — no additional configuration is needed in this plugin.
 
 == Screenshots ==
 
 1. The AcrossAI Model Manager settings page showing dropdowns for each capability type.
 
 == Changelog ==
+
+= 0.0.3 =
+* Added compatibility badges to settings card headers indicating which AI integration each section supports (WP AI Client, AI Plugin, coming soon).
+* Model Preferences section is now disabled when the AI plugin is inactive — shows a warning notice with a direct link to the Connectors screen.
+* Model Preferences section is also disabled when the AI plugin is active but no AI providers are configured — shows a distinct notice prompting the user to configure a provider via the Connectors screen.
+* Added FAQ entry clarifying WP AI Client support status: HTTP Request Timeout works with WP AI Client today; Model Preferences requires the AI plugin and will gain WP AI Client support in a future release.
+* Updated requirements section to clarify that the AI plugin is needed only for Model Preferences; the HTTP Request Timeout works with WordPress 7.0 core directly.
 
 = 0.0.2 =
 * Updated requirements: now explicitly requires WordPress 7.0+ (built-in AI client) instead of the separate WordPress AI plugin.

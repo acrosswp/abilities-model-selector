@@ -17,6 +17,8 @@ const {
 	preferences: initialPreferences = {},
 	nonce,
 	optionName,
+	aiPluginActive = false,
+	connectorsUrl = '',
 } = window.acaiModelManagerSettings || {};
 
 apiFetch.use( apiFetch.createNonceMiddleware( nonce ) );
@@ -106,7 +108,7 @@ const GENERATION_PARAMS = [
 ];
 
 function SettingsApp() {
-	const { useState } = wpElement;
+	const { useState, createInterpolateElement } = wpElement;
 
 	const [ preferences, setPreferences ] = useState(
 		initialPreferences || {}
@@ -176,50 +178,116 @@ function SettingsApp() {
 			{ /* Model Preferences */ }
 			<Card className="acwpms-card">
 				<CardHeader>
-					<strong>
-						{ __(
-							'Model Preferences',
-							'acrossai-model-manager'
-						) }
-					</strong>
+					<HStack justify="flex-start" spacing={ 3 }>
+						<strong>
+							{ __(
+								'Model Preferences',
+								'acrossai-model-manager'
+							) }
+						</strong>
+						<span className="acwpms-badge acwpms-badge--ai-plugin">
+							{ __( 'AI Plugin', 'acrossai-model-manager' ) }
+						</span>
+						<span className="acwpms-badge acwpms-badge--coming-soon">
+							{ __( 'WP AI Client — coming soon', 'acrossai-model-manager' ) }
+						</span>
+					</HStack>
 				</CardHeader>
 				<CardBody>
-					<VStack spacing={ 6 }>
-						{ Object.entries( CAPABILITIES ).map(
-							( [ capKey, capLabel ] ) => {
-								const providerGroups =
-									modelsByCapability[ capKey ] || {};
-								const hasProviders =
-									Object.keys( providerGroups ).length > 0;
-								const selectId = `acwpms-${ capKey }`;
+					{ ( () => {
+						// True when at least one capability has at least one configured provider.
+						const hasAnyProvider = Object.values(
+							modelsByCapability
+						).some(
+							( group ) => Object.keys( group ).length > 0
+						);
 
-								return (
-									<BaseControl
-										key={ capKey }
-										label={ capLabel }
-										id={ selectId }
-										help={
-											! hasProviders
-												? __(
-														'No configured AI providers found for this capability.',
-														'acrossai-model-manager'
-												  )
-												: undefined
-										}
-										__nextHasNoMarginBottom
+						// Section is disabled when the AI plugin is inactive OR when
+						// it is active but no providers are configured yet.
+						const modelPreferencesDisabled =
+							! aiPluginActive || ! hasAnyProvider;
+
+						return (
+							<>
+								{ ! aiPluginActive && (
+									<Notice
+										status="warning"
+										isDismissible={ false }
+										className="acwpms-notice"
 									>
-										<select
-											id={ selectId }
-											className="acwpms-provider-select"
-											value={
-												preferences[ capKey ] || ''
+										{ createInterpolateElement(
+											__(
+												'Model Preferences require the AI plugin. Please visit the <a>Connectors screen</a> to install and activate the AI plugin, then return here to configure your preferred models.',
+												'acrossai-model-manager'
+											),
+											{
+												a: <a href={ connectorsUrl } />,
 											}
-											onChange={ ( e ) =>
-												handleChange(
-													capKey,
-													e.target.value
-												)
+										) }
+									</Notice>
+								) }
+								{ aiPluginActive && ! hasAnyProvider && (
+									<Notice
+										status="warning"
+										isDismissible={ false }
+										className="acwpms-notice"
+									>
+										{ createInterpolateElement(
+											__(
+												'No AI providers are configured. Please visit the <a>Connectors screen</a> to add at least one AI provider, then return here to configure your preferred models.',
+												'acrossai-model-manager'
+											),
+											{
+												a: <a href={ connectorsUrl } />,
 											}
+										) }
+									</Notice>
+								) }
+								<VStack spacing={ 6 }>
+									{ Object.entries( CAPABILITIES ).map(
+										( [ capKey, capLabel ] ) => {
+											const providerGroups =
+												modelsByCapability[
+													capKey
+												] || {};
+											const capHasProviders =
+												Object.keys( providerGroups )
+													.length > 0;
+											const selectId = `acwpms-${ capKey }`;
+
+											return (
+												<BaseControl
+													key={ capKey }
+													label={ capLabel }
+													id={ selectId }
+													help={
+														! modelPreferencesDisabled &&
+														! capHasProviders
+															? __(
+																	'No configured AI providers found for this capability.',
+																	'acrossai-model-manager'
+															  )
+															: undefined
+													}
+													__nextHasNoMarginBottom
+												>
+													<select
+														id={ selectId }
+														className="acwpms-provider-select"
+														value={
+															preferences[
+																capKey
+															] || ''
+														}
+														disabled={
+															modelPreferencesDisabled
+														}
+														onChange={ ( e ) =>
+															handleChange(
+																capKey,
+																e.target.value
+															)
+														}
 										>
 											<option value="">
 												{ DEFAULT_OPTION.label }
@@ -259,7 +327,10 @@ function SettingsApp() {
 								);
 							}
 						) }
-					</VStack>
+								</VStack>
+							</>
+						);
+					} )() }
 				</CardBody>
 			</Card>
 
@@ -328,12 +399,20 @@ function SettingsApp() {
 			{ /* Request Settings */ }
 			<Card className="acwpms-card acwpms-params-card">
 				<CardHeader>
-					<strong>
-						{ __(
-							'Request Settings',
-							'acrossai-model-manager'
-						) }
-					</strong>
+					<HStack justify="flex-start" spacing={ 3 }>
+						<strong>
+							{ __(
+								'Request Settings',
+								'acrossai-model-manager'
+							) }
+						</strong>
+						<span className="acwpms-badge acwpms-badge--wp-ai-client">
+							{ __( 'WP AI Client', 'acrossai-model-manager' ) }
+						</span>
+						<span className="acwpms-badge acwpms-badge--ai-plugin">
+							{ __( 'AI Plugin', 'acrossai-model-manager' ) }
+						</span>
+					</HStack>
 				</CardHeader>
 				<CardBody>
 					<VStack spacing={ 4 }>

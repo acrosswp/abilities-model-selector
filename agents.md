@@ -6,13 +6,14 @@
 
 - **Plugin slug**: `acrossai-model-manager`
 - **Text domain**: `acrossai-model-manager`
-- **Version**: `0.0.1` (defined as `ACAI_MODEL_MANAGER_VERSION` constant in `acrossai-model-manager.php`)
+- **Version**: `0.0.3` (defined as `ACAI_MODEL_MANAGER_VERSION` constant in `acrossai-model-manager.php`)
 - **PHP namespace root**: `AcrossAI_Model_Manager\`
 - **Constant prefix**: `ACAI_MODEL_MANAGER_`
 - **Option key**: `acai_model_manager_preferences`
 - **Legacy option key** (migration source): `aiam_model_preferences`
 - **Settings page slug**: `acrossai-model-manager`
-- **Required dependency**: WordPress 7.0+ (ships `wp_ai_client_prompt()` and related classes in `wp-includes/ai-client/`)
+- **Required dependency for Model Preferences**: The [AI plugin](https://wordpress.org/plugins/ai/) (`ai/ai.php`) — provides the `wpai_preferred_*_models` filter hooks. When not active, the Model Preferences section of the settings page is automatically disabled.
+- **Required dependency for HTTP Timeout**: WordPress 7.0+ only (ships `wp_ai_client_default_request_timeout` filter in `wp-includes/ai-client/`).
 
 ---
 
@@ -342,6 +343,7 @@ Handles asset enqueueing and supplies model data to the React settings app.
 ```js
 {
   models: {
+    // Empty object ({}) when AI plugin is not active.
     text_generation:  { provider_id: { label: string, models: [{ value, label }] } },
     image_generation: { ... },
     vision:           { ... }
@@ -362,13 +364,16 @@ Handles asset enqueueing and supplies model data to the React settings app.
     frequency_penalty:  null,
   },
   nonce: '<wp_rest nonce>',
-  optionName: 'acai_model_manager_preferences'
+  optionName: 'acai_model_manager_preferences',
+  aiPluginActive: true   // false when the AI plugin (wordpress.org/plugins/ai) is not installed/activated
 }
 ```
 
 **Model value format**: `"provider_id::model_id"` (double-colon separator)
 
 **Capability mapping note**: The `text_generation` capability from `AiClient` is mapped to both `text_generation` and `vision` groups (since multimodal text models serve vision tasks too).
+
+**AI plugin active detection**: `aiPluginActive` is set by checking `defined('WPAI_PLUGIN_FILE')` in `Admin\Main::enqueue_scripts()`. The AI plugin (`ai/ai.php`) defines this constant on load, making it the most reliable zero-overhead check. When `false`, `models` is always an empty object `{}` (no registry query is made) and the React app renders the Model Preferences card in a disabled state with a warning notice.
 
 ---
 
@@ -519,6 +524,13 @@ React single-page app mounted on `<div id="acwpms-settings-root">`.
 - `DEFAULT_OPTION` — `{ value: '', label: '— Use WordPress Default —' }`
 - `GENERATION_PARAMS` — array of 6 param descriptors (key, label, help, type, min, max, step). **Used by the hidden Generation Parameters card only.**
 
+**Destructured from `window.acaiModelManagerSettings`:**
+- `modelsByCapability` — grouped model data; empty object `{}` when AI plugin inactive
+- `initialPreferences` — saved option values
+- `nonce` — `wp_rest` nonce
+- `optionName` — option key (`acai_model_manager_preferences`)
+- `aiPluginActive` — boolean; `false` when the AI plugin is not installed/active
+
 **Components:**
 
 - **`SettingsApp`** — Main component
@@ -526,9 +538,11 @@ React single-page app mounted on `<div id="acwpms-settings-root">`.
   - `handleChange(key, value)` — generic state updater for any preference key
   - `handleParamChange(param, rawValue)` — parses raw string input to `float`/`int` or `null`
   - **Card 1: Model Preferences** — 3 `<select>` dropdowns for capability model selection
+    - When `aiPluginActive` is `false`: renders a `<Notice status="warning">` at the top of the card body telling the user to install/activate the AI plugin; all 3 `<select>` elements have `disabled={true}`; the `help` text for "no providers found" is suppressed (shown only when plugin is active and no providers are configured).
+    - When `aiPluginActive` is `true`: normal operation — dropdowns populated from `modelsByCapability`.
   - **Card 2: Generation Parameters** — **HIDDEN** (`{ false && (...) }`), 6 number inputs; code preserved for future enablement
-  - **Card 3: Request Settings** — 1 number input for `request_timeout` (seconds, min 1, placeholder "30")
-  - Save button POSTs all preferences to `/wp/v2/settings` via `apiFetch()`
+  - **Card 3: Request Settings** — 1 number input for `request_timeout` (seconds, min 1, placeholder "30"); **always enabled regardless of AI plugin state** (works via `wp_ai_client_default_request_timeout` on WP 7.0 core)
+  - Save button POSTs all preferences to `/wp/v2/settings` via `apiFetch()`; **always enabled** so HTTP timeout can be saved even when AI plugin is inactive
   - Displays success/error `<Notice>` after save
 
 - **`mount()`** — Entry point
@@ -759,3 +773,6 @@ When releasing a new version:
 | `Request_Settings` uses a static callback string (`'AcrossAI_Model_Manager\Includes\Request_Settings'`) | Avoids instantiating the class unnecessarily; static method needs no instance |
 | Generation params require opt-in via `acai_model_manager_apply_defaults()` | No WordPress core filter exists for `ModelConfig` parameters; `BeforeGenerateResultEvent` is read-only; transparent global interception is architecturally impossible with the current WP 7.0 AI client |
 | `includes/functions.php` loaded in global namespace | The helper function `acai_model_manager_apply_defaults()` must be callable by third-party plugins without any autoloader or namespace knowledge |
+| AI plugin detection uses `defined('WPAI_PLUGIN_FILE')` | `WPAI_PLUGIN_FILE` is the first constant the AI plugin defines on load — no function call or class check required. `is_plugin_active()` would also work on admin pages but requires `wp-admin/includes/plugin.php` to be loaded; the constant check is zero-overhead and works at any hook stage. |
+| `models` passed as `{}` to JS when AI plugin inactive | Prevents a pointless `AiClient::defaultRegistry()` query. The registry may not even be bootstrapped if the AI plugin is absent; the empty object also guarantees the React select loops render nothing, which is consistent with the disabled state. |
+| Model Preferences selects are `disabled` (not hidden) when AI plugin inactive | Hiding them entirely would confuse admins about what the plugin does. Disabling them with a warning notice is more informative — it shows what will become available once the AI plugin is activated. The save button remains active so HTTP timeout can still be configured. |

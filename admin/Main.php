@@ -204,16 +204,23 @@ class Main {
 
 		// Inject settings data after the handle is registered (wp_localize_script requires a registered handle).
 		if ( 'settings_page_acrossai-model-manager' === $hook ) {
-			wp_localize_script(
-				$this->plugin_name,
-				'acaiModelManagerSettings',
-				array(
-					'models'      => $this->get_models_grouped_by_capability(),
-					'preferences' => (object) get_option( \AcrossAI_Model_Manager\Admin\Partials\Menu::OPTION_KEY, array() ),
-					'nonce'       => wp_create_nonce( 'wp_rest' ),
-					'optionName'  => \AcrossAI_Model_Manager\Admin\Partials\Menu::OPTION_KEY,
-				)
-			);
+			// The AI plugin (wordpress.org/plugins/ai) defines WPAI_PLUGIN_FILE on load.
+				// Model Preferences depend on its wpai_preferred_*_models filter hooks,
+				// so we tell the React app whether it is active so the section can be disabled.
+				$ai_plugin_active = defined( 'WPAI_PLUGIN_FILE' );
+
+				wp_localize_script(
+					$this->plugin_name,
+					'acaiModelManagerSettings',
+					array(
+						'models'         => $ai_plugin_active ? $this->get_models_grouped_by_capability() : array(),
+						'preferences'    => (object) get_option( \AcrossAI_Model_Manager\Admin\Partials\Menu::OPTION_KEY, array() ),
+						'nonce'          => wp_create_nonce( 'wp_rest' ),
+						'optionName'     => \AcrossAI_Model_Manager\Admin\Partials\Menu::OPTION_KEY,
+						'aiPluginActive' => $ai_plugin_active,
+						'connectorsUrl'  => admin_url( 'options-connectors.php' ),
+					)
+				);
 		}
 	}
 
