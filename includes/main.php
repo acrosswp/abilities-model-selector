@@ -304,6 +304,9 @@ final class Main {
 		add_filter( 'wpai_preferred_text_models', array( $model_prefs, 'filter_text_models' ), 1111 );
 		add_filter( 'wpai_preferred_image_models', array( $model_prefs, 'filter_image_models' ), 1111 );
 		add_filter( 'wpai_preferred_vision_models', array( $model_prefs, 'filter_vision_models' ), 1111 );
+
+		// Apply the saved HTTP request timeout to every wp_ai_client_prompt() call globally.
+		add_filter( 'wp_ai_client_default_request_timeout', array( 'AcrossAI_Model_Manager\Includes\Request_Settings', 'filter_timeout' ) );
 	}
 
 	/**

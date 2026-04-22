@@ -72,6 +72,12 @@ register_deactivation_hook( __FILE__, 'AcrossAI_Model_Manager\acai_model_manager
  */
 require plugin_dir_path( __FILE__ ) . 'includes/Main.php';
 
+/**
+ * Global helper functions (e.g. acai_model_manager_apply_defaults).
+ * Loaded in global namespace so third-party plugins can call them directly.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/functions.php';
+
 use AcrossAI_Model_Manager\Includes\Main;
 
 /**

@@ -32,6 +32,79 @@ const DEFAULT_OPTION = {
 	label: __( '\u2014 Use WordPress Default \u2014', 'acrossai-model-manager' ),
 };
 
+const GENERATION_PARAMS = [
+	{
+		key: 'temperature',
+		label: __( 'Temperature', 'acrossai-model-manager' ),
+		help: __(
+			'Controls randomness (0.0\u20132.0). Lower = more deterministic. Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'float',
+		min: 0,
+		max: 2,
+		step: 0.01,
+	},
+	{
+		key: 'max_tokens',
+		label: __( 'Max Tokens', 'acrossai-model-manager' ),
+		help: __(
+			'Maximum number of tokens to generate. Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'int',
+		min: 1,
+		step: 1,
+	},
+	{
+		key: 'top_p',
+		label: __( 'Top P', 'acrossai-model-manager' ),
+		help: __(
+			'Nucleus sampling (0.0\u20131.0). Limits the token pool to the top cumulative probability. Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'float',
+		min: 0,
+		max: 1,
+		step: 0.01,
+	},
+	{
+		key: 'top_k',
+		label: __( 'Top K', 'acrossai-model-manager' ),
+		help: __(
+			'Limits the vocabulary to the top K tokens at each step. Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'int',
+		min: 1,
+		step: 1,
+	},
+	{
+		key: 'presence_penalty',
+		label: __( 'Presence Penalty', 'acrossai-model-manager' ),
+		help: __(
+			'Reduces repetition by penalising tokens that have already appeared (\u22122.0\u20132.0). Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'float',
+		min: -2,
+		max: 2,
+		step: 0.01,
+	},
+	{
+		key: 'frequency_penalty',
+		label: __( 'Frequency Penalty', 'acrossai-model-manager' ),
+		help: __(
+			'Reduces repetition by penalising tokens proportional to their frequency (\u22122.0\u20132.0). Leave empty to use the provider default.',
+			'acrossai-model-manager'
+		),
+		type: 'float',
+		min: -2,
+		max: 2,
+		step: 0.01,
+	},
+];
+
 function SettingsApp() {
 	const { useState } = wpElement;
 
@@ -41,8 +114,22 @@ function SettingsApp() {
 	const [ isSaving, setIsSaving ] = useState( false );
 	const [ notice, setNotice ] = useState( null );
 
-	const handleChange = ( capKey, value ) => {
-		setPreferences( ( prev ) => ( { ...prev, [ capKey ]: value } ) );
+	const handleChange = ( key, value ) => {
+		setPreferences( ( prev ) => ( { ...prev, [ key ]: value } ) );
+	};
+
+	const handleParamChange = ( param, rawValue ) => {
+		if ( rawValue === '' ) {
+			handleChange( param.key, null );
+			return;
+		}
+		const parsed =
+			param.type === 'int'
+				? parseInt( rawValue, 10 )
+				: parseFloat( rawValue );
+		if ( ! isNaN( parsed ) ) {
+			handleChange( param.key, parsed );
+		}
 	};
 
 	const handleSave = async () => {
@@ -63,7 +150,10 @@ function SettingsApp() {
 				type: 'error',
 				message:
 					error.message ||
-					__( 'An error occurred while saving.', 'acrossai-model-manager' ),
+					__(
+						'An error occurred while saving.',
+						'acrossai-model-manager'
+					),
 			} );
 		} finally {
 			setIsSaving( false );
@@ -83,10 +173,14 @@ function SettingsApp() {
 				</Notice>
 			) }
 
+			{ /* Model Preferences */ }
 			<Card className="acwpms-card">
 				<CardHeader>
 					<strong>
-						{ __( 'Model Preferences', 'acrossai-model-manager' ) }
+						{ __(
+							'Model Preferences',
+							'acrossai-model-manager'
+						) }
 					</strong>
 				</CardHeader>
 				<CardBody>
@@ -165,6 +259,117 @@ function SettingsApp() {
 								);
 							}
 						) }
+					</VStack>
+				</CardBody>
+			</Card>
+
+			{ /* Generation Parameters — hidden, code preserved for future use */ }
+			{ false && (
+				<Card className="acwpms-card acwpms-params-card">
+					<CardHeader>
+						<strong>
+							{ __(
+								'Generation Parameters',
+								'acrossai-model-manager'
+							) }
+						</strong>
+					</CardHeader>
+					<CardBody>
+						<p className="acwpms-params-description">
+							{ __(
+								'These are site-wide defaults applied via acai_model_manager_apply_defaults(). Leave a field empty to use the provider\u2019s default. Plugins that set a parameter explicitly always take priority over these defaults.',
+								'acrossai-model-manager'
+							) }
+						</p>
+						<VStack spacing={ 4 }>
+							{ GENERATION_PARAMS.map( ( param ) => {
+								const inputId = `acwpms-param-${ param.key }`;
+								const currentValue = preferences[ param.key ];
+								return (
+									<BaseControl
+										key={ param.key }
+										label={ param.label }
+										help={ param.help }
+										id={ inputId }
+										__nextHasNoMarginBottom
+									>
+										<input
+											type="number"
+											id={ inputId }
+											className="acwpms-param-input"
+											value={
+												currentValue !== null &&
+												currentValue !== undefined
+													? currentValue
+													: ''
+											}
+											min={ param.min }
+											max={ param.max }
+											step={ param.step }
+											placeholder={ __(
+												'Provider default',
+												'acrossai-model-manager'
+											) }
+											onChange={ ( e ) =>
+												handleParamChange(
+													param,
+													e.target.value
+												)
+											}
+										/>
+									</BaseControl>
+								);
+							} ) }
+						</VStack>
+					</CardBody>
+				</Card>
+			) }
+
+			{ /* Request Settings */ }
+			<Card className="acwpms-card acwpms-params-card">
+				<CardHeader>
+					<strong>
+						{ __(
+							'Request Settings',
+							'acrossai-model-manager'
+						) }
+					</strong>
+				</CardHeader>
+				<CardBody>
+					<VStack spacing={ 4 }>
+						<BaseControl
+							label={ __(
+								'HTTP Request Timeout (seconds)',
+								'acrossai-model-manager'
+							) }
+							help={ __(
+								'Maximum time in seconds to wait for an AI provider response. Applied globally to every wp_ai_client_prompt() call on this site. Leave empty to use the WordPress default (30 seconds).',
+								'acrossai-model-manager'
+							) }
+							id="acwpms-param-request_timeout"
+							__nextHasNoMarginBottom
+						>
+							<input
+								type="number"
+								id="acwpms-param-request_timeout"
+								className="acwpms-param-input"
+								value={
+									preferences.request_timeout !== null &&
+									preferences.request_timeout !== undefined
+										? preferences.request_timeout
+										: ''
+								}
+								min={ 1 }
+								step={ 1 }
+								placeholder="30"
+								onChange={ ( e ) =>
+									handleParamChange(
+										{ key: 'request_timeout', type: 'int' },
+										e.target.value
+									)
+								}
+							/>
+						</BaseControl>
 					</VStack>
 				</CardBody>
 			</Card>

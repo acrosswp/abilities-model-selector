@@ -5,7 +5,14 @@
       "Read(//Users/raftaar1191/local-sites/wordpress-7-0/app/public/**)",
       "Bash(wp --allow-root eval ':*)",
       "Bash(npm run:*)",
-      "Bash(node -e \"console.log\\(process.version\\)\")"
+      "Bash(node -e \"console.log\\(process.version\\)\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(magick -size 256x256 'xc:#111827' -stroke '#3858e980' -strokewidth 1.5 -fill none -draw 'line 82,82 166,128' -draw 'line 82,128 166,128' -draw 'line 82,174 166,128' -fill '#1a2040' -stroke '#3858e9' -strokewidth 1.5 -draw 'circle 64,82 82,82' -draw 'circle 64,128 82,128' -draw 'circle 64,174 82,174' -fill '#7a8fee' -stroke none -draw 'circle 64,82 68,82' -draw 'circle 64,128 68,128' -draw 'circle 64,174 68,174' -fill '#3858e926' -stroke none -draw 'circle 196,128 238,128' -fill '#3858e9' -stroke none -draw 'circle 196,128 226,128' -stroke white -strokewidth 2.5 -fill none -draw 'polyline 184,130 192,138 210,116' /Users/raftaar1191/local-sites/wordpress-7-0/app/public/wp-content/plugins/acrossai-model-manager/.wordpress-org/icon-256x256.png)",
+      "Bash(magick /Users/raftaar1191/local-sites/wordpress-7-0/app/public/wp-content/plugins/acrossai-model-manager/.wordpress-org/icon-256x256.png -resize 128x128 /Users/raftaar1191/local-sites/wordpress-7-0/app/public/wp-content/plugins/acrossai-model-manager/.wordpress-org/icon-128x128.png)",
+      "Bash(convert -size 1544x500 'xc:#111827' -fill '#3858e9' -stroke none -draw 'rectangle 0,0 7,500' -fill none -stroke '#3858e9' -strokewidth 2.5 -draw 'circle 950,145 950,173' -fill '#3858e9' -stroke none -draw 'circle 950,145 950,153' -fill none -stroke '#3858e9' -strokewidth 2.5 -draw 'circle 950,250 950,278' -fill '#3858e9' -stroke none -draw 'circle 950,250 950,258' -fill none -stroke '#3858e9' -strokewidth 2.5 -draw 'circle 950,355 950,383' -fill '#3858e9' -stroke none -draw 'circle 950,355 950,363' -fill none -stroke '#5b7bff' -strokewidth 2 -draw 'line 978,145 1248,250' -draw 'line 978,250 1248,250' -draw 'line 978,355 1248,250' -fill '#1d2d6b' -stroke none -draw 'circle 1305,250 1305,333' -fill '#3858e9' -stroke none -draw 'circle 1305,250 1305,323' -fill white -stroke white -strokewidth 6 -draw 'polyline 1279,250 1298,269 1333,231' -font Avenir-Black -pointsize 76 -fill white -draw 'text 80,218 '\\\\''Model Manager'\\\\''' -fill '#3858e9' -stroke none -draw 'rectangle 80,230 390,237' -font Avenir-Book -pointsize 27 -fill '#9CA3AF' -draw 'text 80,275 '\\\\''Set your preferred AI model.'\\\\''' -quality 90 .wordpress-org/banner-1544x500.jpeg)",
+      "Bash(magick .wordpress-org/banner-1544x500.jpeg -resize 772x250 -quality 90 .wordpress-org/banner-772x250.jpeg)"
     ]
   }
 }

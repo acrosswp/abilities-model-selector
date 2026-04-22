@@ -77,17 +77,38 @@ class Menu {
 					'schema' => array(
 						'type'                 => 'object',
 						'properties'           => array(
-							'text_generation'  => array(
+							'text_generation'   => array(
 								'type'    => 'string',
 								'default' => '',
 							),
-							'image_generation' => array(
+							'image_generation'  => array(
 								'type'    => 'string',
 								'default' => '',
 							),
-							'vision'           => array(
+							'vision'            => array(
 								'type'    => 'string',
 								'default' => '',
+							),
+							'temperature'       => array(
+								'type' => array( 'number', 'null' ),
+							),
+							'max_tokens'        => array(
+								'type' => array( 'integer', 'null' ),
+							),
+							'top_p'             => array(
+								'type' => array( 'number', 'null' ),
+							),
+							'top_k'             => array(
+								'type' => array( 'integer', 'null' ),
+							),
+							'presence_penalty'  => array(
+								'type' => array( 'number', 'null' ),
+							),
+							'frequency_penalty' => array(
+								'type' => array( 'number', 'null' ),
+							),
+							'request_timeout'   => array(
+								'type' => array( 'integer', 'null' ),
 							),
 						),
 						'additionalProperties' => false,
@@ -100,16 +121,18 @@ class Menu {
 	}
 
 	/**
-	 * Sanitizes model preferences before saving.
+	 * Sanitizes model preferences and generation parameters before saving.
 	 *
 	 * @param mixed $input Raw input.
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
 	public function sanitize_preferences( $input ): array {
 		$clean = array();
 		if ( ! is_array( $input ) ) {
 			return $clean;
 		}
+
+		// Model preferences — must be "provider::model_id" format.
 		foreach ( array_keys( self::$capabilities ) as $cap_key ) {
 			if ( empty( $input[ $cap_key ] ) ) {
 				continue;
@@ -125,6 +148,42 @@ class Menu {
 				$clean[ $cap_key ] = $provider . '::' . $model;
 			}
 		}
+
+		// Generation parameters — float values with range validation.
+		$float_params = array(
+			'temperature'       => array( 'min' => 0.0, 'max' => 2.0 ),
+			'top_p'             => array( 'min' => 0.0, 'max' => 1.0 ),
+			'presence_penalty'  => array( 'min' => -2.0, 'max' => 2.0 ),
+			'frequency_penalty' => array( 'min' => -2.0, 'max' => 2.0 ),
+		);
+
+		foreach ( $float_params as $key => $bounds ) {
+			if ( ! array_key_exists( $key, $input ) || null === $input[ $key ] || '' === $input[ $key ] ) {
+				continue;
+			}
+			$value = (float) $input[ $key ];
+			if ( $value >= $bounds['min'] && $value <= $bounds['max'] ) {
+				$clean[ $key ] = $value;
+			}
+		}
+
+		// Generation parameters — integer values with minimum validation.
+		$int_params = array(
+			'max_tokens'      => 1,
+			'top_k'           => 1,
+			'request_timeout' => 1,
+		);
+
+		foreach ( $int_params as $key => $min ) {
+			if ( ! array_key_exists( $key, $input ) || null === $input[ $key ] || '' === $input[ $key ] ) {
+				continue;
+			}
+			$value = (int) $input[ $key ];
+			if ( $value >= $min ) {
+				$clean[ $key ] = $value;
+			}
+		}
+
 		return $clean;
 	}
 

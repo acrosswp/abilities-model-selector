@@ -98,6 +98,49 @@
 	}
 
 	// ---------------------------------------------------------------------------
+	// Generation params card — adds top spacing to separate it from the models card.
+	// ---------------------------------------------------------------------------
+	.acwpms-params-card {
+		margin-top: 16px;
+	}
+
+	// ---------------------------------------------------------------------------
+	// Generation params description — muted helper text above the inputs.
+	// ---------------------------------------------------------------------------
+	.acwpms-params-description {
+		margin: 0 0 16px;
+		color: #646970;
+		font-size: 13px;
+	}
+
+	// ---------------------------------------------------------------------------
+	// Generation parameter number input — compact, matches WP admin form styles.
+	// ---------------------------------------------------------------------------
+	.acwpms-param-input {
+		display: block;
+		width: 160px;
+		min-height: 36px;
+		padding: 6px 8px;
+		font-size: 13px;
+		line-height: 1.5;
+		color: #1e1e1e;
+		background-color: #fff;
+		border: 1px solid #949494;
+		border-radius: 2px;
+		cursor: text;
+
+		&:focus {
+			border-color: #3858e9;
+			box-shadow: 0 0 0 1px #3858e9;
+			outline: 2px solid transparent;
+		}
+
+		&::placeholder {
+			color: #949494;
+		}
+	}
+
+	// ---------------------------------------------------------------------------
 	// Provider-grouped select — native <select> with <optgroup> per provider.
 	// Styled to match @wordpress/components SelectControl dimensions.
 	// ---------------------------------------------------------------------------
@@ -113,7 +156,6 @@
 		background-color: #fff;
 		border: 1px solid #949494;
 		border-radius: 2px;
-		appearance: auto;
 		cursor: pointer;
 
 		&:focus {
